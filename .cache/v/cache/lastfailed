@@ -1,0 +1,5 @@
+{
+  "mapthingy/tests.py::test_is_hostname[microsoft.com-True]": true,
+  "mapthingy/tests.py::test_is_hostname[virgosvs.com-True]": true,
+  "mapthingy/tests.py::test_is_hostname[www.amazon.com-True]": true
+}
