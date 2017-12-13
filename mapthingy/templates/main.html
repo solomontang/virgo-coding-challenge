@@ -23,11 +23,13 @@
                 }
             }
 
-            function showMarker(map, pos) {
+            function showMarker(map, pos, ip) {
                 var marker = new google.maps.Marker({
                     position: pos,
-                    map: map
+                    map: map,
+                    title: ip
                 });
+                console.log(marker)
                 markers.push(marker);
             }
 
@@ -40,7 +42,7 @@
                 API.start("localhost:8888/wsapi/", function() {
                     console.log("Ready to map stuff!");
                 }, function(position) {
-                    showMarker(map, posFromApi(position));
+                    showMarker(map, posFromApi(position), position.ip);
                 });
             }
 
