@@ -29,7 +29,6 @@
                     map: map,
                     title: ip
                 });
-                console.log(marker)
                 markers.push(marker);
             }
 
@@ -54,11 +53,18 @@
                 markers = [];
             }
 
-            function findOne() {
-                API.getHostPosition($("#input-one").val());
+            function findOne(hostname) {
+                hostname = hostname || $("#input-one").val()
+                API.getHostPosition(hostname);
             }
 
             function findAll() {
+              let inputValue = $("#input-one").val().split(', ');
+              inputValue.forEach( host => {
+                findOne(host);
+              })
+              
+              
                 // TODO: implement searching of comma-separated values
             }
         </script>
