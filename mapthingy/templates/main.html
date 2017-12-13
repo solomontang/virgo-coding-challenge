@@ -24,8 +24,9 @@
             }
 
             function showMarker(map, pos, title) {
+                let position = posFromApi(pos);
                 var marker = new google.maps.Marker({
-                    position: posFromApi(pos),
+                    position,
                     map,
                     title
                 });
@@ -37,6 +38,7 @@
                   infowindow.open(map, marker);
                 })
                 markers.push(marker);
+                map.panTo(position);
             }
 
             function initMap() {
