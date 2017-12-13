@@ -4,6 +4,7 @@ import tornado.websocket
 from tornado import httpclient
 import os
 import json
+from urlparse import urlparse
 
 ROOT = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_DIR = os.path.join(ROOT, 'templates')
@@ -19,7 +20,16 @@ class APIHandler(tornado.websocket.WebSocketHandler):
         Should return True if the value is a string ending
         in a period, followed by a number of letters.
         """
-        return None
+
+        
+        try:
+          name = s.split('.')[-2:]
+          float(name[1])
+        except ValueError:
+          return True
+        else:
+          return False
+
 
     def process_message(self, message):
         msg = json.loads(message)
