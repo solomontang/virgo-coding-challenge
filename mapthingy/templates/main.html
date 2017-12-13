@@ -68,9 +68,9 @@
             }
 
             function findAll() {
-              let inputValue = $("#input-one").val().split(', ');
+              let inputValue = $("#input-one").val().split(',');
               inputValue.forEach( host => {
-                findOne(host);
+                findOne(host.trim());
               })
                 // TODO: implement searching of comma-separated values
             }
