@@ -23,14 +23,15 @@
                 }
             }
 
-            function showMarker(map, pos, ip) {
+            function showMarker(map, pos, title) {
                 var marker = new google.maps.Marker({
-                    position: pos,
-                    map: map,
-                    title: ip
+                    position: posFromApi(pos),
+                    map,
+                    title
                 });
+                var contentString = title + ': ' + pos.ip;
                 var infowindow = new google.maps.InfoWindow({
-                  content: ip
+                  content: contentString
                 });
                 marker.addListener('click', function() {
                   infowindow.open(map, marker);
@@ -46,8 +47,8 @@
 
                 API.start("localhost:8888/wsapi/", function() {
                     console.log("Ready to map stuff!");
-                }, function(position) {
-                    showMarker(map, posFromApi(position), position.ip);
+                }, function(position, title) {
+                    showMarker(map, position, title);
                 });
             }
 

@@ -17,7 +17,7 @@ var API = (function() {
                 if (data.msg === "position") {
                     console.log("Position received", data);
                     var position = JSON.parse(data.payload);
-                    positionCallback(position);
+                    positionCallback(position, data.title);
                 } else {
                     console.log("Unknown message", data);
                 }

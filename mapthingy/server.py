@@ -4,7 +4,7 @@ import tornado.websocket
 from tornado import httpclient
 import os
 import json
-from urlparse import urlparse
+from functools import partial
 
 ROOT = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_DIR = os.path.join(ROOT, 'templates')
@@ -45,18 +45,19 @@ class APIHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         print("WebSocket closed")
 
-    def handle_request(self, res):
+    def handle_request(self, host_name, res):
       if res.error:
         print('bad request')
       else:
         self.write_message({
               'msg': 'position',
-              'payload': res.body.decode('utf-8')
+              'payload': res.body.decode('utf-8'),
+              'title': host_name
           })
 
     def get_position(self, host_or_ip):
       client = httpclient.AsyncHTTPClient()
-      client.fetch(FREEGEOIP_URL_PATTERN % {'host': host_or_ip}, self.handle_request)
+      client.fetch(FREEGEOIP_URL_PATTERN % {'host': host_or_ip}, partial(self.handle_request, host_or_ip))
 
 
 class MainHandler(tornado.web.RequestHandler):
