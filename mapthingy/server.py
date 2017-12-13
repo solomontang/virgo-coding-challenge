@@ -35,13 +35,18 @@ class APIHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         print("WebSocket closed")
 
-    def get_position(self, host_or_ip):
-        client = httpclient.HTTPClient()
-        res = client.fetch(FREEGEOIP_URL_PATTERN % {'host': host_or_ip})
+    def handle_request(self, res):
+      if res.error:
+        print('bad request')
+      else:
         self.write_message({
-            'msg': 'position',
-            'payload': res.body.decode('utf-8')
-        })
+              'msg': 'position',
+              'payload': res.body.decode('utf-8')
+          })
+
+    def get_position(self, host_or_ip):
+      client = httpclient.AsyncHTTPClient()
+      client.fetch(FREEGEOIP_URL_PATTERN % {'host': host_or_ip}, self.handle_request)
 
 
 class MainHandler(tornado.web.RequestHandler):
